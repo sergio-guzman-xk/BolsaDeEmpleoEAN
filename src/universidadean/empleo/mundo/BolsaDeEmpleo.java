@@ -84,7 +84,16 @@ public class BolsaDeEmpleo {
      * <b>post: </b>La lista de aspirantes está ordenada por nombre (orden ascendente).
      */
     public void ordenarPorNombre() {
-        // TODO: Realizar el ejercicio correspondiente
+        Aspirante aux = null;
+		for(int i = 0; i < aspirantes.size() - 1; i++) {
+			for (int j = 0; j < aspirantes.size() - i - 1; j++) {
+				if (aspirantes.get(j).darNombre().compareTo(aspirantes.get(j + 1).darNombre()) > 0) {
+					aux = aspirantes.get(j + 1);
+					aspirantes.set(j + 1, aspirantes.get(j));
+					aspirantes.set(j, aux);
+				}
+			}
+		}
     }
 
     /**
@@ -115,6 +124,16 @@ public class BolsaDeEmpleo {
      */
     public void ordenarPorProfesion() {
         // TODO: Realizar el ejercicio correspondiente
+        Aspirante aux = null;
+		for(int i = 0; i < aspirantes.size() - 1; i++){
+			for(int j = 0; j < aspirantes.size() - i - 1; j++){
+				if(aspirantes.get(j).darProfesion().compareTo(aspirantes.get(j+1).darProfesion()) > 0){
+					aux = aspirantes.get(j+1);
+					aspirantes.set(j+1, aspirantes.get(j));
+					aspirantes.set(j, aux);
+				}
+			}
+		}
     }
 
     /**
@@ -145,10 +164,15 @@ public class BolsaDeEmpleo {
      */
     public int buscarAspirante(String nombre) {
         int posicion = -1;
-
-        // TODO: Realizar el ejercicio correspondiente
-
-        return posicion;
+		String a,b;
+		for(int i = 0; i < aspirantes.size(); i++) {
+			a = aspirantes.get(i).darNombre().toUpperCase();
+			b = nombre.toUpperCase();
+			if(a.indexOf(b) > -1 ){
+				return i;
+			}
+		}
+		return posicion;
     }
 
     /**
@@ -195,9 +219,15 @@ public class BolsaDeEmpleo {
      */
     public int buscarAspiranteMasJoven() {
         int posicion = -1;
-
-        // TODO: Realizar el ejercicio correspondiente
-
+		int highest = 500;
+        if(aspirantes.size() > 0) {
+            for (Aspirante aspirante : aspirantes) {
+                if (aspirante.darEdad() < highest) {
+                    highest = aspirante.darEdad();
+                    posicion = aspirantes.indexOf(aspirante);
+                }
+            }
+        }
         return posicion;
     }
 
@@ -208,7 +238,7 @@ public class BolsaDeEmpleo {
      */
     public int buscarAspiranteMayorEdad() {
         int posicion = -1;
-        int highest = 0;
+        int highest = -1;
         if(aspirantes.size() > 0) {
             for (Aspirante aspirante : aspirantes) {
                 if (aspirante.darEdad() > highest) {
@@ -248,9 +278,11 @@ public class BolsaDeEmpleo {
      */
     public boolean contratarAspirante(String nombre) {
         boolean contratado = false;
-
-        // TODO: Realizar el ejercicio correspondiente
-
+		int i = this.buscarBinarioPorNombre(nombre);
+		if(i > -1){
+			aspirantes.remove(i);
+			return true;
+		}
         return contratado;
     }
 
